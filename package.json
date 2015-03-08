@@ -1,0 +1,35 @@
+{
+  "name": "irc_overlay",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "nw": "^0.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mmis1000/irc-overlay.git"
+  },
+  "scripts": {
+    "start": "nw --disable-gpu",
+    "startLinux": "nw --disable-gpu --force-cpu-draw --enable-transparent-visuals"
+  },
+  "window": {
+    "title": "HTML Overlay",
+    "icon": "link.png",
+    "toolbar": true,
+    "frame": false,
+    "width": 2560,
+    "height": 1600,
+    "position": "center",
+    "transparent": true,
+    "always-on-top": true,
+    "toolbar": false,
+    "resizable": false
+  }
+}
