@@ -1,0 +1,87 @@
+html {
+  color : white;
+  font-family: 'Noto Sans', 'Microsoft JhengHei', 'sans-serif', 'serif';
+}
+
+input {
+  font-family: 'Noto Sans', 'Microsoft JhengHei', 'sans-serif', 'serif';
+}
+
+/* make everything transparent, or at least unselectable */
+html, html * {
+  pointer-events: none;
+  
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+
+  /* No support for these yet, use at own risk */
+  -o-user-select: none;
+  user-select: none;       
+}
+
+.bullet {
+  text-shadow: 0px 0px 4px #777777;
+  font-size:30px;
+  white-space:nowrap;
+}
+.test {
+  background:black;
+  height:40px;
+  width:40px;
+}
+.hasPointer, .hasPointer * {
+  pointer-events: auto;
+  
+  -webkit-user-select: auto;  /* Chrome all / Safari all */
+  -moz-user-select: auto;     /* Firefox all */
+  -ms-user-select: auto;      /* IE 10+ */
+
+  /* No support for these yet, use at own risk */
+  -o-user-select: auto;
+  user-select: auto;       
+}
+
+.send {
+  position: absolute;
+  left: 50%;
+  top:50%;
+  height:30px;
+  width:40%;
+  margin-top:-15px;
+  margin-left:-20%;
+  background: white;
+  border-radius: 15px;
+  /*border: #777 solid 2px;*/
+  opacity:0.8;
+  box-shadow:2px 2px 2px 0px #777 inset;
+  overflow:hidden;
+  font-size:20px;
+}
+.send .target {
+  position: absolute;
+  left:0px;
+  top:0px;
+  right:75%;
+  bottom:0px;
+  line-height:30px;
+  text-align:center;
+  border-right:#dddddd 2px solid;
+  font-size:20px;
+  color:#777777;
+}
+
+.send .input {
+  border:0px;
+  margin:0px;
+  padding: 0px 4px 0px 4px;
+  position: absolute;
+  left:25%;
+  top:0px;
+  bottom:0px;
+  width:75%;
+  line-height:30px;
+  text-align:left;
+  font-size:20px;
+  background:transparent;
+}

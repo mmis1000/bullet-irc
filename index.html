@@ -4,44 +4,39 @@
     <title>Hello World!</title>
     
     <link rel="stylesheet" href="lib/prepare.css">
-
     <script src="lib/prepare.js"></script>
+    
+    <link rel="stylesheet" href="lib/jquery-ui.css">
     <script src="lib/jquery.js"></script>
-    <script src="index.js"></script>
+    <script src="lib/jquery-ui.js"></script>
+    <script src="client.js"></script>
     
     <!-- debug session -->
     <script>
       /* enable debug tool */
       require('nw.gui').Window.get().showDevTools();
-      console.log('view main/index.html for detail!');
+      
+      require('nw.gui').Window.get().on('minimize', function() {
+        require('nw.gui').Window.get().show()
+      });
+      
+      /* prevent accidently refresh  */
+      function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+      //$(document).on("keydown", disableF5);
     </script>
     
-    <style>
-      html {
-        color : white;
-      }
-      
-      /* make everything transparent, or at least unselectable */
-      html, html * {
-        pointer-events: none;
-        
-        -webkit-user-select: none;  /* Chrome all / Safari all */
-        -moz-user-select: none;     /* Firefox all */
-        -ms-user-select: none;      /* IE 10+ */
-
-        /* No support for these yet, use at own risk */
-        -o-user-select: none;
-        user-select: none;       
-      }
-      
-      div {
-        text-shadow: 0px 0px 4px #777777;
-        font-size:30px;
-        white-space:nowrap;
-      }
-    </style>
-    
+    <link rel="stylesheet" href="client.css">
   </head>
   <body>
+  <!--
+    <div class="test hasPointer">
+    </div>
+  <div class="send hasPointer">
+    <div class="target">
+      #ysitd
+    </div>
+    <input class="input" type="text">
+  </div>
+  -->
   </body>
 </html>
