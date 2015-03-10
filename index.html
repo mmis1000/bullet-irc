@@ -3,18 +3,17 @@
   <head>
     <title>Hello World!</title>
     
+    <link rel="stylesheet" href="lib/normalize.css">
     <link rel="stylesheet" href="lib/prepare.css">
     <script src="lib/prepare.js"></script>
     
-    <link rel="stylesheet" href="lib/jquery-ui.css">
-    <script src="lib/jquery.js"></script>
-    <script src="lib/jquery-ui.js"></script>
-    <script src="client.js"></script>
     
     <!-- debug session -->
     <script>
       /* enable debug tool */
       require('nw.gui').Window.get().showDevTools();
+      
+      require('nw.gui').Window.get().removeAllListeners()
       
       require('nw.gui').Window.get().on('minimize', function() {
         require('nw.gui').Window.get().show()
@@ -25,18 +24,25 @@
       //$(document).on("keydown", disableF5);
     </script>
     
+    
+    <link rel="stylesheet" href="lib/jquery-ui.css">
+    <script src="lib/jquery.js"></script>
+    <script src="lib/jquery-ui.js"></script>
+    <script src="lib/jquery.caret.js"></script>
+    <script src="client.js"></script>
+    
     <link rel="stylesheet" href="client.css">
   </head>
   <body>
-  <!--
-    <div class="test hasPointer">
+    <div class="bullet-space">
     </div>
-  <div class="send hasPointer">
-    <div class="target">
-      #ysitd
+    <div class="send hasPointer" style="display:none;">
+      <input class="target" value="#ysitd">
+      <input class="input" type="text">
     </div>
-    <input class="input" type="text">
-  </div>
-  -->
+    <div class="float-icon hasPointer">
+      <a href="javascript:void(0);">&#9776;</a>
+    </div>
+    
   </body>
 </html>

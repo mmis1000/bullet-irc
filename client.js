@@ -11,10 +11,27 @@ service.addListener('registered', function (from, to, message) {
 });
 service.addListener('message', function (from, to, message) {
   console.log(new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + " " + from + ' => ' + to + ': ' + message);
-  bullet(colorize(from) + ' => ' + colorize(to) + ': ' + parseColor(safe_tags_replace(message)));
+  bullet(
+    colorize(from) + ' => ' + colorize(to) + ': ' + parseColor(safe_tags_replace(message)),
+    {
+      sender : from,
+      target : to
+    }
+  );
 });
-
-
+service.addListener('ctcp', function (from, to, message) {
+  if (message.search(/^action/i) === 0) {
+    message = message.replace(/^action\s/i, '');
+    console.log(new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + " " + to + ' * ' + from + ' ' + message);
+    bullet(
+      colorize(to) + ' * ' + colorize(from) + ' ' + parseColor(safe_tags_replace(message)),
+      {
+        sender : from,
+        target : to
+      }
+    );
+  }
+});
 
 timeRemain = 8000;
 space = 80;
@@ -24,16 +41,12 @@ var tagsToReplace = {
     '<': '&lt;',
     '>': '&gt;'
 };
-
 function replaceTag(tag) {
     return tagsToReplace[tag] || tag;
 }
-
 function safe_tags_replace(str) {
     return str.replace(/[&<>]/g, replaceTag);
 }
-
-
 var getColor = function() {
   var cache = {};
   var crypto = require('crypto');
@@ -69,24 +82,9 @@ var getColor = function() {
   }
   return getColor_;
 }();
-
 function colorize(nick) {
   return '<span style="color:' + getColor(nick) + '">' + nick + '</span>';
 }
-
-setTimeout(function(){
-  $("ul.logs li").each(function(){
-    var nickField = $(this).children(".nick");
-    
-    nickField.css("color",getColor(nickField.text()));
-  });
-  $(".wordwrap").each(function(){
-    $(this).html(
-      parseColor($(this).html())
-    );
-  });
-} ,100);
-
 var parseColor = function() {
 
     var colors = [
@@ -299,14 +297,20 @@ var parseColor = function() {
 var current = -1
 var lastTime = Date.now()
 var firstRowLast = -1;
-function bullet(text) {
-  var item = $('<div class="bullet"/>').html(text);
-  item.css({
-    display: 'block',
-    position: 'absolute',
-    'font-family': "'Noto Sans', 'Microsoft JhengHei', 'sans-serif', 'serif'"
-  })
-  $('body').append(item);
+function bullet(text, dataObj) {
+  dataObj = dataObj || {};
+  
+  var item = $('<div class="bullet hasPointer"/>').html(text);
+  
+  for (var i in dataObj) {
+    if (dataObj.hasOwnProperty(i)) {
+      item.attr('data-' + i, dataObj[i].toString());
+    }
+  }
+  
+  
+  
+  $('.bullet-space').append(item);
   
   var lastRowRemp;
   
@@ -345,6 +349,104 @@ function bullet(text) {
   })
 }
 
+function setTarget (target) {
+  $(".send .target").val(target)
+}
+
+function handleKeyup (e) {
+  var text, target;
+  var code = e.keyCode
+  if (code == 13) {
+    //$('.send').fadeOut();
+    text = $('.send .input').val();
+    $('.send .input').val('');
+    
+    if (text === '') {
+      $('.send').fadeOut();
+      return;
+    }
+    
+    target = $(".send .target").val();
+    
+    service.client.say(target, text);
+    
+    bullet(
+      colorize(service.getSelfName()) + ' => ' + colorize(target) + ': ' + parseColor(safe_tags_replace(text)),
+      {
+        target : target
+      }
+    );
+    
+    return;
+  }  
+  if (code == 27) {
+    $('.send').fadeOut();
+    $('.send .input').text('');
+    return;
+  }  
+}
+
+function handleKeydown (e) {
+  if (e.keyCode === 13 || e.keyCode === 27) {
+    return;
+  }
+    
+  var target = $('.send .target');
+  var input = $('.send .input');
+  if ($(this).is('.input')) {
+    if ($(this).caret() === 0 && e.keyCode == 37) {
+      target.focus()
+      target.caret(target.val().length)
+      e.preventDefault();
+    }
+  }
+  if ($(this).is('.target')) {
+    if ($(this).caret() === target.val().length && e.keyCode == 39) {
+      input.focus()
+      input.caret(0)
+      e.preventDefault();
+    }
+  }
+}
+
 $(function() {
-  $(".test").draggable();
+  $(".float-icon").draggable({ containment: "html", scroll: false });
+  $(".float-icon").click(function(){
+    if (!$('.send').is(":visible")) {
+      $('.send').fadeToggle();
+      $('.send .input').focus();
+    } else {
+      $('.send').fadeToggle();
+    }
+    
+  })
+  $("body").on('click', '.bullet', function(){
+    console.log('click');
+    var sender = $(this).attr('data-sender');
+    var target = $(this).attr('data-target');
+    
+    if (!target) {
+      return;
+    }
+    if (target.search('#') === 0) {
+      setTarget(target);
+    } else {
+      if (sender) {
+        setTarget(sender);
+      } else {
+        setTarget(target);
+      }
+    }
+    if (!$('.send').is(":visible")) {
+      $('.send').fadeToggle();
+    }
+    $('.send .input').focus()
+  });
+  $('.send').keyup(handleKeyup);
+  $('.send .input').keydown(handleKeydown);
+  $('.send .target').keydown(handleKeydown);
+});
+
+require('nw.gui').Window.get().on('blur', function() {
+  $('.send').fadeOut();
 });
