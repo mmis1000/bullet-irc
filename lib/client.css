@@ -25,7 +25,7 @@ html, html * {
   user-select: none;       
 }
 
-.hasPointer, .hasPointer * {
+.hasPointer, .hasPointer *, .ui-dialog, .ui-dialog * {
   pointer-events: auto;
   
   -webkit-user-select: auto;  /* Chrome all / Safari all */
@@ -39,10 +39,10 @@ html, html * {
 
 .bullet-space {
   position:fixed;
-  top:0px;
+  top:15%;
   left:0px;
-  height:0px;
-  width:0px;
+  right:0px;
+  bottom:15%;
 }
 
 .bullet {
@@ -53,8 +53,16 @@ html, html * {
   display: block;
   position: absolute;
   font-family: 'Noto Sans', 'Microsoft JhengHei', 'sans-serif', 'serif';
+  text-align:center;
+  vertical-align: middle;
 }
 
+.bullet img{
+  max-width : 150px;
+  max-height : 150px;
+  opacity: 0.8;
+  vertical-align: middle;
+}
 .bullet, .bullet * {
   pointer-events: auto;
   
@@ -137,4 +145,77 @@ html, html * {
 }
 .float-icon:hover {
     opacity:1;
+}
+
+.select-bar {
+  width : 160px;
+  height: 40px;
+  background: #eeeeee;
+  position: absolute;
+  right:5%;
+  bottom:10%;
+  border-radius:10px;
+  box-shadow:2px 2px 2px 0px #777;
+  opacity:0.8;
+  box-shadow:-2px -2px 2px 0px #777 inset;
+  overflow:hidden;
+}
+.select-bar .item {
+  float:left;
+  width :39px;
+  height : 40px;
+  border-right : 1px solid #cccccc;
+  font-size:30px;
+  line-height:40px;
+  text-align:center;
+  color:#777777;
+}
+.select-bar .item:hover {
+  background: rgba(255, 255, 255, 0.4);
+  text-align:center;
+  color:#555555;
+  cursor:pointer;
+}
+.window {
+  position : relative;
+  overflow : hidden !important;
+}
+.window .outer {
+  position : absolute;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  background:white;
+  border:0px;
+}
+.window .outer .innerURL {
+  position : absolute;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:30px;
+  background:white;
+  border:2px solid #f7f7f7;
+  padding:0px 4px 0px 4px;
+  line-height:26px;
+  box-sizing: border-box;
+}
+
+.window .outer .innerFrame {
+  position : absolute;
+  left:0px;
+  top:30px;
+  right:0px;
+  bottom:0px;
+  border:0px;
+}
+
+.window .outer .innerFrame iframe {
+  position : absolute;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:100%;
+  border:0px;
 }

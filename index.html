@@ -11,7 +11,7 @@
     <!-- debug session -->
     <script>
       /* enable debug tool */
-      require('nw.gui').Window.get().showDevTools();
+      //require('nw.gui').Window.get().showDevTools();
       
       require('nw.gui').Window.get().removeAllListeners()
       
@@ -21,28 +21,51 @@
       
       /* prevent accidently refresh  */
       function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
-      //$(document).on("keydown", disableF5);
+      //$(document).on("keydown", disableF5
+      
     </script>
     
     
     <link rel="stylesheet" href="lib/jquery-ui.css">
     <script src="lib/jquery.js"></script>
     <script src="lib/jquery-ui.js"></script>
+    <script src="lib/jquery-ui-title-buttons.js"></script>
     <script src="lib/jquery.caret.js"></script>
-    <script src="client.js"></script>
+    <script src="lib/aabb.js"></script>
+    <script src="lib/client.js"></script>
     
-    <link rel="stylesheet" href="client.css">
+    <script>
+      function showDev(e) { 
+        if ((e.which || e.keyCode) == 123) {
+          require('nw.gui').Window.get().showDevTools();
+        }      
+      };
+      $(document).on("keydown", showDev);
+    </script>
+    
+    <link rel="stylesheet" href="lib/client.css">
   </head>
   <body>
     <div class="bullet-space">
     </div>
-    <div class="send hasPointer" style="display:none;">
-      <input class="target" value="#ysitd">
-      <input class="input" type="text">
+    <div class="main-wrap" style="display:none">
+      <div class="send hasPointer">
+        <input class="target" value="#ysitd">
+        <input class="input" type="text">
+      </div>
+      
+      <div class="panels">
+      </div>
+      
+      <div id="select-bar" class="select-bar moveable hasPointer memoryable">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+      </div>
     </div>
-    <div class="float-icon hasPointer">
+    <div id="float-icon" class="float-icon hasPointer moveable memoryable">
       <a href="javascript:void(0);">&#9776;</a>
     </div>
-    
   </body>
 </html>
